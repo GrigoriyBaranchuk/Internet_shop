@@ -1,0 +1,8 @@
+{% extends 'toyota/base.html' %}
+{% block content %}
+{%for prod in products %}
+<a href="{% url 'product_details' product_pk=prod.id %}">{{ prod.name }}</a>
+{% endfor %}
+
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'toyota/base.html' %}
+{% block content %}
+
+<div>Name: {{ product.name }}</div>
+<div>Category: {{ product.category }}</div>
+<div>Description: {{ product.description }}</div>
+<div>Price per kg {{ product.price }} usd</div>
+<div>On stock: {{ product.stock }} kg</div>
+<div>{{ product.price_per_weight}}</div>
+
+<form method="POST" action="{% url 'add_product_to_basket' product_pk=product.id %}">
+    {% csrf_token %}
+<input type="number" name="quantity">
+    <input type="submit" value="submit">
+</form>
+
+
+
+{% endblock %}
