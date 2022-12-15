@@ -25,6 +25,11 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('register/', register_request, name='register'),
     path('add_to_basket/<int:product_pk>', add_product_to_basket, name='add_product_to_basket'),
-
+    path('basket/<int:user_pk>', user_basket, name='user_basket'),
+    path('delete_product_from_basket/<int:product_in_basket_pk>', delete_product_from_basket,
+         name='delete_product_from_basket'),
+    path('change_quantity/<str:action>/<int:product_in_basket_pk>', action_with_product_weight,
+         name='change_quantity'),
+    path('buy/<int:basket>', buy, name='buy'),
 
 ]

@@ -1,8 +1,15 @@
 {% extends 'toyota/base.html' %}
+
 {% block content %}
-{%for prod in products %}
-<a href="{% url 'product_details' product_pk=prod.id %}">{{ prod.name }}</a>
+
+<h3>Products in category {{category_name}}</h3>
+<nav>
+    <ul>
+{% for prod in products %}
+<li><a href="{% url 'product_details' product_pk=prod.id %}">{{ prod.name }}</a></li>
 {% endfor %}
+    </ul>
+</nav>
 
 
 {% endblock %}

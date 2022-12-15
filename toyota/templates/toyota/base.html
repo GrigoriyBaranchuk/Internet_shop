@@ -11,20 +11,39 @@
     <div class="container">
         <h1><a href="{% url 'index' %}">Internet shop </a></h1>
     </div>
+
+
+
+<h3>Categories:</h3>
     <div class="container">
-     {%for cat in categories %}
-        <div class="header"><a href="{% url 'category_details' category_pk=cat.id %}">{{cat.name}}</a></div>
-     {% endfor %}
-      <a href="{% url 'login' %}">Log In</a>
-      <a href="{% url 'logout' %}">Logout</a>
-      <a href="{% url 'register' %}">Register</a>
+        <nav>
+            <ul>
+                {% for  cat in categories %}
+                <li><div class="header"><a href="{% url 'category_details' category_pk=cat.id  %}">{{cat.name}}</a></div></li>
+                {% endfor %}
+            </ul>
+        </nav>
+    </div>
+
+<h3>Registration</h3>
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="{% url 'login' %}">Log In</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'user_basket' user_pk=user.id %}">user basket</a></li>
+                {% endif %}
+            </ul>
+        </nav>
     </div>
 
     <div class="content container">
         <div class="row">
             <div class="col-md-8">
-            {% block content %}
-            {% endblock %}
+                {% block content %}
+                {% endblock %}
             </div>
         </div>
     </div>
