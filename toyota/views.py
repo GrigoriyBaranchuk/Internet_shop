@@ -7,7 +7,6 @@ from django.contrib import messages
 # Create your views here.
 
 
-
 def index(request):
     categories = Category.objects.all()
     return render(request=request, template_name='toyota/index.html', context={'categories': categories,

@@ -1,0 +1,27 @@
+{% extends 'toyota/base.html' %}
+{% block content %}
+<h1>Basket of {{user.username}}</h1>
+{% if products_set %}
+{% for product in products_set %}
+<div style="border-style: solid; border-color: red; margin-top: 10px">
+    name: {{product.product}}<br>
+    $ per 1kg: {{product.product.price}}<br>
+    weight: {{product.quantity}}<a href="{% url 'change_quantity' action='add' product_in_basket_pk=product.id %}" >+</a>
+                                <a href="{% url 'change_quantity' action='reduce' product_in_basket_pk=product.id %}">-</a> <br>
+    $$$: {{product.price_per_weight}}<br>
+    <a href="{% url 'delete_product_from_basket' product_in_basket_pk=product.id %}">delete product</a>
+</div>
+{%endfor%}
+<h2><a href="{% url 'buy'  basket=basket.id%}">Buy Now</a></h2>
+{%else%}
+<h2>Dear {{user.username}}, Your basket is empty </h2>
+
+{%endif%}
+
+<h3>Total for basket {{user.basket.sum_of_basket}}</h3>
+
+
+
+
+
+{% endblock %}
