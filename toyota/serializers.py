@@ -14,7 +14,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class CategorySerialaizer(serializers.ModelSerializer):
-    products = ProductSerializer(many=True, source='product_set')
+    products = ProductSerializer(many=True)
+                                 # source='product_set')
 
     class Meta:
         model = Category
