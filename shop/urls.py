@@ -17,12 +17,19 @@ from django.contrib import admin
 from django.urls import path, include
 from toyota.views import *
 from rest_framework import routers
-from toyota.viewsets import ProductViewSet, CategoryViewSet
+from toyota.viewsets import ProductViewSet, CategoryViewSet, CategoryCustomViewSet
 
 
 router = routers.DefaultRouter()
 router.register('products', ProductViewSet)
-router.register('category', CategoryViewSet)
+router.register('categories', CategoryViewSet)
+router.register(prefix=r'category/(?P<id>\d+)/products', viewset=CategoryCustomViewSet)
+
+
+api = [path('api/', include(router.urls)),
+       # path('api/category/<int:id>/products', CategoryCustomViewSet.as_view({"get": "list"}),
+       #      name='category_products'),
+       ]
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -38,5 +45,4 @@ urlpatterns = [
     path('change_quantity/<str:action>/<int:product_in_basket_pk>', action_with_product_weight,
          name='change_quantity'),
     path('buy/<int:basket>', buy, name='buy'),
-    path('api/', include(router.urls)),
-]
+] + api
