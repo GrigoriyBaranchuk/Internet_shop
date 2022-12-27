@@ -17,13 +17,16 @@ from django.contrib import admin
 from django.urls import path, include
 from toyota.views import *
 from rest_framework import routers
-from toyota.viewsets import ProductViewSet, CategoryViewSet, CategoryCustomViewSet
+from toyota.viewsets import ProductViewSet, CategoryViewSet, CategoryCustomViewSet, ProductsInBasketViewSet, CreateOrderViewSet
 
 
 router = routers.DefaultRouter()
 router.register('products', ProductViewSet)
 router.register('categories', CategoryViewSet)
 router.register(prefix=r'category/(?P<id>\d+)/products', viewset=CategoryCustomViewSet)
+router.register('basket', ProductsInBasketViewSet)
+router.register('buy', CreateOrderViewSet)
+
 
 
 api = [path('api/', include(router.urls)),
