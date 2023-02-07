@@ -48,4 +48,5 @@ urlpatterns = [
     path('change_quantity/<str:action>/<int:product_in_basket_pk>', action_with_product_weight,
          name='change_quantity'),
     path('buy/<int:basket>', buy, name='buy'),
+    path('test/', create_test_products, name='create_test_products')
 ] + api

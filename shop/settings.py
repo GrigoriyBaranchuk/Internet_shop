@@ -121,7 +121,7 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CELERY_BROKER_URL = 'amqp//127.0.0.1'
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/1'
 
 BROKER_URL = 'django://'
 
@@ -132,3 +132,4 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+

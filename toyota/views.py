@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect
 from toyota.models import Category, Product, Basket, ProductInBasket, ProductIMG, Order, ProductInOrder
 from toyota.forms import NewUserForm
+from toyota.tasks import add_some_product_to_admin_basket
 from django.contrib.auth import login
 from django.contrib import messages
+from datetime import datetime
 
 # Create your views here.
 
 
 def index(request):
+    add_some_product_to_admin_basket.apply_async()
     categories = Category.objects.all()
     return render(request=request, template_name='toyota/index.html', context={'categories': categories,
                                                                                })
@@ -52,7 +55,14 @@ def register_request(request):
 
 def user_basket(request, user_pk):
     basket_id = Basket.objects.filter(user_id=user_pk).first()
-    products_set = ProductInBasket.objects.filter(basket_id=basket_id)
+    products_set = ProductInBasket.objects.filter(basket_id=basket_id).select_related('product__category', 'basket__user')
+    start = datetime.now()
+    for prod in products_set:
+        print(prod.basket.user)
+        print(prod.product.name)
+        print(prod.product.category)
+        print(prod.product.price)
+    print(datetime.now()-start)
     categories = Category.objects.all()
     return render(request, 'toyota/user_basket.html', {'user_pk': user_pk,
                                                        'products_set': products_set,
@@ -123,6 +133,26 @@ def buy(request, basket):
         products.delete()
 
     return redirect('user_basket', **{'user_pk': request.user.id})
+
+
+def create_test_products(request):
+    category = Category.objects.first()
+    user = request.user
+    for prod in range(1000):
+
+        product = Product.objects.create(name=f'test{prod}', price=1,
+                                      category=category, description='test description',
+                                      stock=1)
+        basket = Basket.objects.filter(user_id=user.id).first()
+        quantity = 1.0
+        ProductInBasket.objects.create(product=product,
+                                           basket=basket,
+                                           quantity=quantity,
+                                           )
+    return redirect('user_basket', **{'user_pk': request.user.id})
+
+
+
 
 
 
